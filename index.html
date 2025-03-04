@@ -15,6 +15,7 @@
             margin: 0;
             background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
             color: #fff;
+            overflow: hidden;
         }
         #countdown-container {
             text-align: center;
@@ -39,6 +40,34 @@
             width: 200px;
             height: auto;
             margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #fff;
+            opacity: 0.8;
+            border-radius: 50%;
+            animation: confetti-anim 3s ease-in-out infinite;
+        }
+        @keyframes confetti-anim {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-200px) rotate(360deg);
+                opacity: 0;
+            }
         }
         @media (max-width: 600px) {
             #countdown {
@@ -103,12 +132,24 @@
             document.getElementById('minutes').innerText = minutes;
             document.getElementById('seconds').innerText = seconds;
 
-            // If the countdown is over, display a message
+            // If the countdown is over, display a message and start confetti
             if (distance < 0) {
                 clearInterval(countdownFunction);
-                document.getElementById('countdown').innerHTML = '<div>Skype has been shut down.</div>';
+                document.getElementById('countdown').innerHTML = '<div>Skype is dead</div>';
+                startConfetti();
             }
         }, 1000);
+
+        function startConfetti() {
+            const container = document.getElementById('countdown-container');
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * container.offsetWidth + 'px';
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                container.appendChild(confetti);
+            }
+        }
     </script>
 </body>
 </html>
