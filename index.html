@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skype Shutdown Countdown</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
+            color: #fff;
+        }
+        #countdown-container {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        #countdown {
+            font-size: 2.5rem;
+            margin-top: 20px;
+        }
+        #countdown span {
+            display: inline-block;
+            margin: 0 10px;
+        }
+        #countdown span div {
+            font-size: 1.5rem;
+            margin-top: 5px;
+        }
+        svg {
+            width: 200px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 600px) {
+            #countdown {
+                font-size: 2rem;
+            }
+            #countdown span div {
+                font-size: 1.2rem;
+            }
+            svg {
+                width: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="countdown-container">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <rect x="50" y="100" width="100" height="80" rx="10" ry="10" fill="#333" />
+            <circle cx="100" cy="50" r="30" fill="#00AFF0" />
+            <text x="100" y="140" font-family="Arial" font-size="16" fill="#fff" text-anchor="middle" alignment-baseline="middle">R.I.P.</text>
+            <text x="100" y="160" font-family="Arial" font-size="16" fill="#fff" text-anchor="middle" alignment-baseline="middle">Skype</text>
+        </svg>
+        <h1>Countdown to Skype Shutdown</h1>
+        <div id="countdown">
+            <span>
+                <div id="days">00</div>
+                Days
+            </span>
+            <span>
+                <div id="hours">00</div>
+                Hours
+            </span>
+            <span>
+                <div id="minutes">00</div>
+                Minutes
+            </span>
+            <span>
+                <div id="seconds">00</div>
+                Seconds
+            </span>
+        </div>
+    </div>
+
+    <script>
+        // Set the date for Skype shutdown
+        const skypeShutdownDate = new Date('2025-05-05T00:00:00Z').getTime();
+
+        // Update the countdown every second
+        const countdownFunction = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = skypeShutdownDate - now;
+
+            // Calculate days, hours, minutes, and seconds
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the countdown in the element with id="countdown"
+            document.getElementById('days').innerText = days;
+            document.getElementById('hours').innerText = hours;
+            document.getElementById('minutes').innerText = minutes;
+            document.getElementById('seconds').innerText = seconds;
+
+            // If the countdown is over, display a message
+            if (distance < 0) {
+                clearInterval(countdownFunction);
+                document.getElementById('countdown').innerHTML = '<div>Skype has been shut down.</div>';
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
